@@ -1,0 +1,91 @@
+version: '3.7'
+
+services:
+    zookeeper:
+        image: wurstmeister/zookeeper:latest
+
+    kafka:
+        image: wurstmeister/kafka:latest
+        env_file:
+            - ./kafka/.env
+        depends_on:
+          - zookeeper
+
+    event_simulator_db:
+        image: mdillon/postgis:10
+        volumes:
+          - event_simulator_db_postgres_data:/var/lib/postgresql/data
+        env_file:
+            - ./event_simulator_db/.env
+
+    event_simulator_web:
+        image: baranbartu/event-simulator-web:latest
+        command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+        build:
+            context: ./event_simulator_web
+            dockerfile: Dockerfile
+        env_file:
+            - ./event_simulator_web/.env
+        depends_on:
+          - event_simulator_db
+          - kafka
+        ports:
+          - 8000:8000
+        volumes:
+          - ./event_simulator_web:/app
+
+    event_simulator_worker:
+        image: baranbartu/event-simulator-worker:latest
+        command: sh -c "python -m worker"
+        build:
+            context: ./event_simulator_worker
+            dockerfile: Dockerfile
+        env_file:
+            - ./event_simulator_worker/.env
+        depends_on:
+          - event_simulator_web
+          - kafka
+
+    event_handler_api:
+        image: baranbartu/event-handler-api:latest
+        command: sh -c "npm start"
+        build:
+            context: ./event_handler_api
+            dockerfile: Dockerfile
+        env_file:
+            - ./event_handler_api/.env
+        depends_on:
+          - event_simulator_worker
+          - kafka
+
+    locations_ws_server:
+        image: baranbartu/locations-ws-server:latest
+        command: sh -c "npm start"
+        build:
+            context: ./locations_ws_server
+            dockerfile: Dockerfile
+        env_file:
+            - ./locations_ws_server/.env
+        depends_on:
+          - event_handler_api
+          - kafka
+        ports:
+          - 8080:8080
+
+    driving_analytics_ws_server:
+        image: baranbartu/driving-analytics-ws-server:latest
+        command: sh -c "npm start"
+        build:
+            context: ./driving_analytics_ws_server
+            dockerfile: Dockerfile
+        env_file:
+            - ./driving_analytics_ws_server/.env
+        depends_on:
+          - event_handler_api
+          - kafka
+        ports:
+          - 8081:8081
+
+
+volumes:
+  event_simulator_db_postgres_data:
