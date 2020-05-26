@@ -7,10 +7,10 @@ You will also have conceptual info about building web applications built on top 
 - zookeeper (resource management for kafka)
 - kafka (service communication, message broker, distributed task queue)
 - event_simulator_db (used by event_simulator_web)
-- event_simulator_web (create dummy trips to simulater later on) - `Python + Django + Kafka`
+- event_simulator_web (create dummy trips to simulate later on) - `Python + Django + Kafka`
 - event_simulator_worker (distributed task queue for event simulation) - `Python + Kafka + Multiprocessing`
 - event_handler_api (REST API for receving events like location, driver behaviour etc) - `Node.js + Express + Kafka`
-- locations_ws_server (a ws server to receive location data from related kafka topic and send them to the connected clients) -  `Node.js +websocket + Kafka`
+- locations_ws_server (a ws server to receive location data from related kafka topic and send them to the connected clients) -  `Node.js + websocket + Kafka`
 - driving_analytics_ws_server (same with previous ws server, listens driving_analytics topic for such an events like "hard break", "speed limit" etc.)
 - simulation_insights.html (an individual file that contains simple ws client and some google maps code snippets, you can double click this later on once you are ready on launching all services and starting simulation)
 
@@ -35,6 +35,5 @@ Despite the fact that each services are well designed in terms of priority. Howe
 - Go to http://localhost:8000/admin/trips/dummytrip/ in another tab, choose dummy trips to be simulated, select `Start Simulation` from the dropdown and click `Go`
 - Go back to `simulation_insights` page and enjoy the events!
 ### Some Hints
-> Map center point is in Istanbul, you might want to change it
-> You should be adding your own google maps, replace `<yourapikey>` with your key in .html file 
-
+- Map center point is in Istanbul, you might want to change it
+- You should be adding your own google maps api key, replace `<yourapikey>` with your key in .html file 
