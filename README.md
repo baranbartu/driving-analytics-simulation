@@ -37,3 +37,6 @@ Despite the fact that each services are well designed in terms of priority. Howe
 ### Some Hints
 - Map center point is in Istanbul, you might want to change it
 - You should be adding your own google maps api key, replace `<yourapikey>` with your key in .html file 
+
+## Overall Diagram
+![ScreenShot](https://raw.github.com/baranbartu/driving-analytics-simulation/master/diagram.png)
