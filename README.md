@@ -33,6 +33,7 @@ Despite the fact that each services are well designed in terms of priority. Howe
 ##  Running simulation
 - Open `simulation_insights.html` in a ws supported browser.
 - Go to http://localhost:8000/admin/trips/dummytrip/ in another tab, choose dummy trips to be simulated, select `Start Simulation` from the dropdown and click `Go`
+- Event simulation worker handles those tasks and starts producing location and some random driving analytics events
 - Go back to `simulation_insights` page and enjoy the events!
 ### Some Hints
 - Map center point is in Istanbul, you might want to change it
