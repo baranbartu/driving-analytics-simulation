@@ -22,10 +22,8 @@ Despite the fact that each services are well designed in terms of priority. Howe
 >  iterate running and killing docker-compose up until you have access to localhost:8000 which is the first entry point for the simulation
 
 ## Time to create admin account for event_simulator_web and create a few dummy trips
-- Find container id of `event_simulator_web` 
-     >    docker container ls
 - Create a super user, follow the instructions after running below command
-     >    docker exec -ti <container_id> python manage.py createsuperuser
+     >    docker exec -ti $(docker ps -aqf "name=^event_simulator_web$") python manage.py createsuperuser
  - Now you can add some dummy trips. Go to http://localhost:8000/admin/, login with credentials that you created previously and click `Dummy trips` on the menu
  - Click `Add Dummy Trip` on the top, right
  - Specify a `operator name` and `polyline` (should be google encoded polyline that simulation will be iterating coordinates respectively)
